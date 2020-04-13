@@ -1,0 +1,42 @@
+<ng-container *ngIf="isLoading; then loadingView else readyView"></ng-container>
+
+<ng-template #loadingView>
+    <ActionBar title="Loading Form..."></ActionBar>
+    <ActivityIndicator [busy]="isLoading"
+                       color="red" width="100" height="100"
+    >
+    </ActivityIndicator>
+</ng-template>
+
+<ng-template #readyView>
+    <ActionBar title="{{ movieTitle }}" class="action-bar">
+        <NavigationButton
+                (tap)="goBack()"
+                text="Go Back"
+        ></NavigationButton>
+<!--        icon="res://ic_arrow_black_24dp"-->
+        <ActionItem icon="font://&#xf00c;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="updateMovie()"
+        ></ActionItem>
+        <ActionItem icon="font://&#xf2ed;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="deleteMovie()"
+        ></ActionItem>
+    </ActionBar>
+
+    <FlexboxLayout flexDirection="column" class="page">
+        <FlexboxLayout class="m-15" flexDirection="row">
+        </FlexboxLayout>
+        <Label class="fas h2" text="Title"></Label>
+        <TextField [(ngModel)]="movie.title"></TextField>
+
+        <Label class="fas h2" text="Description"></Label>
+        <TextView [(ngModel)]="movie.description" ></TextView>
+    </FlexboxLayout>
+
+
+</ng-template>
+

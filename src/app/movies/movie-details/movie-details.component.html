@@ -1,0 +1,60 @@
+<ng-container *ngIf="isLoading; then loadingView else readyView"></ng-container>
+
+<ng-template #loadingView  >
+    <ActionBar title="Loading Details..."></ActionBar>
+    <ActivityIndicator [busy]="isLoading"
+                       color="red" width="100" height="100"
+    >
+    </ActivityIndicator>
+    <FlexboxLayout flexDirection="column">
+        <Image src="~/app/logo.png"></Image>
+    </FlexboxLayout>
+</ng-template>
+
+<ng-template #readyView>
+    <ActionBar title="{{ movie.title }}" class="action-bar">
+        <NavigationButton
+                (tap)="goBack()"
+                text="Go Back"
+        ></NavigationButton>
+        <!--        icon="res://ic_arrow_black_24dp"-->
+        <ActionItem icon="font://&#xf044;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="editClicked()"
+        ></ActionItem>
+        <ActionItem icon="font://&#xf2ed;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="deleteMovie()"
+        ></ActionItem>
+    </ActionBar>
+
+    <FlexboxLayout flexDirection="column" class="page">
+        <Image src="~/app/logo.png"></Image>
+        <FlexboxLayout class="m-15" flexDirection="row">
+            <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                <Label text="&#xf005;" class="fas h2" [ngClass]="{'orange' : movie.avg_rating > i }"></Label>
+            </ng-container>
+            <Label class="fab h2" text="({{ movie.no_of_ratings }})"></Label>
+        </FlexboxLayout>
+
+        <FlexboxLayout class="m-15">
+            <Label class="h3" [text]="movie.description"></Label>
+        </FlexboxLayout>
+
+        <FlexboxLayout flexDirection="row">
+            <Label text="Rate movie: " class="fa h2"></Label>
+            <Label *ngFor="let rate of [1,2,3,4,5]"
+                   (tap)="rateSubmit(rate)"
+                   [ngClass]="{'fas purple' : rateHovered >= rate, 'far' : rateHovered < rate }"
+                   text="&#xf005;"
+                   class="h2"
+            > </Label>
+        </FlexboxLayout>
+
+    </FlexboxLayout>
+
+
+</ng-template>
+

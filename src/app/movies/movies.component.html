@@ -1,0 +1,35 @@
+<ng-container *ngIf="isLoading; then loadingView else readyView"></ng-container>
+<ng-template #readyView >
+    <ActionBar title="Movies Rater">
+        <ActionItem icon="font://&#xf044;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="newMovie()"
+        ></ActionItem>
+        <ActionItem icon="font://&#xf2f5;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="signOut()"
+        ></ActionItem>
+    </ActionBar>
+    <Image src="~/app/logo.png"></Image>
+    <FlexboxLayout flexDirection="column" class="page">
+        <ListView [items]="movies" >
+            <ng-template let-movie="item">
+                <StackLayout>
+                    <Label [nsRouterLink]="['/movie', movie.id]" [text]="movie.title"></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+    </FlexboxLayout>
+</ng-template>
+
+<ng-template #loadingView class="page">
+    <ActionBar title="Loading Movies..."></ActionBar>
+    <ActivityIndicator [busy]="isLoading"
+                       color="red" width="100" height="100"
+    ></ActivityIndicator>
+    <FlexboxLayout flexDirection="column">
+        <Image src="~/app/logo.png"></Image>
+    </FlexboxLayout>
+</ng-template>

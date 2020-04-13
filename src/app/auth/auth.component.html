@@ -1,0 +1,60 @@
+<ng-container *ngIf="isLoading; then loadingView else readyView">
+</ng-container>
+
+<ng-template #loadingView>
+    <ActionBar title="Loading Auth..."></ActionBar>
+    <ActivityIndicator [busy]="isLoading"
+                       color="red" width="100" height="100"
+    ></ActivityIndicator>
+</ng-template>
+
+<ng-template #readyView>
+
+    <ActionBar title="{{ authMode }}" class="action-bar">
+        <NavigationButton
+                (tap)="goBack()"
+                text="Go Back"
+        ></NavigationButton>
+        <!--        icon="res://ic_arrow_black_24dp"-->
+        <ActionItem
+                *ngIf="isRegisterMode()"
+                icon="font://&#xf3c1;"
+                class="fas h2"
+                ios.position="right"
+                (tap)="swapMode()"
+        ></ActionItem>
+        <ActionItem *ngIf="isLoginMode();"
+                    icon="font://&#xf234;"
+                    class="fas h2"
+                    ios.position="right"
+                    (tap)="swapMode()"
+        ></ActionItem>
+
+    </ActionBar>
+
+    <FlexboxLayout flexDirection="column" class="page">
+        <FlexboxLayout class="m-15" flexDirection="row">
+        </FlexboxLayout>
+        <Label class="fas h3" text="Username"></Label>
+        <TextField [(ngModel)]="auth.username"
+                   autocapitalizationType="none"></TextField>
+
+        <Label class="fas h3" text="Password"></Label>
+        <TextField [(ngModel)]="auth.password"
+                   secure="true"
+                   autocapitalizationType="none"></TextField>
+        <Button *ngIf="isLoginMode();"
+                text="&#xf3c1;"
+                (tap)="authenticate()"
+                class="-primary -rounded-lg fas h2"
+        ></Button>
+        <Button *ngIf="isRegisterMode();"
+                text="&#xf234;"
+                (tap)="authenticate()"
+                class="-primary -rounded-lg fas h2"
+        ></Button>
+    </FlexboxLayout>
+
+
+</ng-template>
+
